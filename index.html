@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔥🔥🔥一键暴富💰💰💰</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 24px 16px;
+    color: #fff;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255,215,0,0.5);
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 24px;
+  }
+
+  /* Results */
+  .results-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .ticket {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.15s;
+  }
+  .ticket:hover { transform: translateX(3px); }
+  .balls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .ball {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  }
+  .ball-front {
+    background: radial-gradient(circle at 35% 35%, #ff7043, #c62828);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .ball-back {
+    background: radial-gradient(circle at 35% 35%, #42a5f5, #1565c0);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .divider {
+    color: #ffd700;
+    font-size: 1.1rem;
+    font-weight: bold;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .placeholder-text {
+    text-align: center;
+    color: rgba(255,255,255,0.25);
+    padding: 28px 0;
+    font-size: 0.9rem;
+  }
+
+  /* Buttons */
+  .btn-generate {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #ffd700, #ff8f00);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #1a1a2e;
+    cursor: pointer;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.35);
+    transition: all 0.2s;
+    margin-bottom: 28px;
+  }
+  .btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(255,215,0,0.5);
+  }
+  .btn-generate:active { transform: translateY(0); }
+  .btn-error-hint {
+    display: none;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #ff8a80;
+  }
+
+  /* Filter section */
+  .filter-section {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .filter-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .filter-title {
+    font-size: 0.95rem;
+    color: #ffd700;
+    font-weight: bold;
+  }
+  .filter-hint {
+    font-size: 0.72rem;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .filter-hint span { color: #aaa; }
+  #filterData {
+    width: 100%;
+    height: 140px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    padding: 10px 12px;
+    resize: vertical;
+    line-height: 1.7;
+    font-family: 'Courier New', monospace;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #filterData:focus { border-color: rgba(255,215,0,0.5); }
+  #filterData::placeholder { color: #555; }
+
+  /* Error / info messages */
+  .msg-box {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    display: none;
+  }
+  .msg-error {
+    background: rgba(229, 57, 53, 0.18);
+    border: 1px solid rgba(229, 57, 53, 0.4);
+    color: #ff8a80;
+  }
+  .msg-info {
+    background: rgba(100, 181, 246, 0.12);
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    color: #90caf9;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot {
+    width: 16px; height: 16px; border-radius: 50%;
+  }
+  .legend-dot.front { background: radial-gradient(circle at 35% 35%, #ff7043, #c62828); }
+  .legend-dot.back  { background: radial-gradient(circle at 35% 35%, #42a5f5, #1565c0); }
+
+  /* Inline single-line filters */
+  .inline-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .inline-filter { flex: 1; min-width: 0; }
+  .inline-label {
+    display: block;
+    font-size: 0.72rem;
+    color: #aaa;
+    margin-bottom: 5px;
+  }
+  .inline-label span { color: #666; font-size: 0.68rem; }
+  .filter-input-inline {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    font-family: 'Courier New', monospace;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .filter-input-inline:focus { border-color: rgba(255,215,0,0.5); }
+  .filter-input-inline::placeholder { color: #555; }
+  .group-filter-label {
+    font-size: 0.72rem;
+    color: #aaa;
+    margin-bottom: 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .group-filter-label span { color: #666; font-size: 0.68rem; }
+
+  /* Copy buttons */
+  .copy-all-row {
+    display: none;
+    margin-bottom: 10px;
+  }
+  .btn-copy-all {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .btn-copy-all:hover {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,215,0,0.5);
+    color: #ffd700;
+  }
+  .btn-copy-one {
+    align-self: flex-end;
+    padding: 4px 14px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 7px;
+    color: #bbb;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .btn-copy-one:hover {
+    background: rgba(255,215,0,0.15);
+    border-color: rgba(255,215,0,0.4);
+    color: #ffd700;
+  }
+  .btn-copy-one.copied {
+    color: #69f0ae;
+    border-color: rgba(105,240,174,0.4);
+    background: rgba(105,240,174,0.1);
+  }
+
+  /* ── 金币动画 ── */
+  .coin-particle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1.4rem;
+    z-index: 9999;
+    animation: coinFall var(--dur, 0.8s) ease-in forwards;
+    transform-origin: center;
+  }
+  .coin-particle.fullscreen {
+    font-size: 1.6rem;
+    animation: coinFallFull var(--dur, 1.2s) ease-in forwards;
+  }
+  @keyframes coinFall {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1);   opacity: 1; }
+    60%  { opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.6); opacity: 0; }
+  }
+  @keyframes coinFallFull {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1);   opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.5); opacity: 0; }
+  }
+
+  /* Toast */
+  #toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(30,40,60,0.95);
+    border: 1px solid rgba(255,215,0,0.35);
+    color: #ffd700;
+    padding: 9px 22px;
+    border-radius: 24px;
+    font-size: 0.85rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  #toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<h1>超级大乐透</h1>
+<p class="subtitle">前区 01–35 选5个 &nbsp;|&nbsp; 后区 01–12 选2个</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot front"></div>前区</div>
+  <div class="legend-item"><div class="legend-dot back"></div>后区</div>
+</div>
+
+<div class="results-area" id="resultsArea">
+  <div class="placeholder-text">点击下方按钮暴富</div>
+</div>
+
+<div class="copy-all-row" id="copyAllRow">
+  <button class="btn-copy-all" onclick="copyAll()">复制全部</button>
+</div>
+
+<div style="position:relative;" id="btnWrap">
+<button class="btn-generate" id="btnGenerate" onclick="handleGenerate()">🎲🎲🎲 一键暴富 🎉🎉🎉</button>
+</div>
+<div class="btn-error-hint" id="btnErrorHint">⚠ 过滤条件有误，请修正后再试</div>
+
+<div id="toast"></div>
+
+<div class="filter-section">
+  <div class="filter-header">
+    <span class="filter-title">排除号码🚫（可选）</span>
+  </div>
+
+  <!-- 前后区单独过滤 -->
+  <div class="inline-filters">
+    <div class="inline-filter">
+      <label class="inline-label" for="filterFront">前区排除 <span>01–35</span></label>
+      <input type="text" id="filterFront" class="filter-input-inline" placeholder="如：03 08 22 31">
+    </div>
+    <div class="inline-filter">
+      <label class="inline-label" for="filterBack">后区排除 <span>01–12</span></label>
+      <input type="text" id="filterBack" class="filter-input-inline" placeholder="如：06 11">
+    </div>
+  </div>
+
+  <!-- 按组过滤 -->
+  <div class="group-filter-label">按组排除 <span>（每行一注：5个前区 + 2个后区，共7个数字）</span></div>
+  <div class="filter-hint">
+    分隔符支持（可混用）：中文逗号，&nbsp; 中文句号。&nbsp; 英文逗号,&nbsp; 小数点.&nbsp; 空格
+  </div>
+  <textarea id="filterData" placeholder="示例：
+03 08 15 22 31 06 11
+07,14,20,28,33,03,09
+01.11.21.31.35 02 12"></textarea>
+  <div class="msg-box msg-error" id="errorBox"></div>
+  <div class="msg-box msg-info"  id="infoBox"></div>
+</div>
+
+<script>
+// 全局存储当前生成的号码组
+let currentSets = [];
+
+// ── 高质量随机：使用 crypto.getRandomValues，避免 Math.random 的线性同余弱点 ──
+function cryptoRandInt(max) {
+  // 拒绝采样，确保均匀分布
+  const limit = Math.floor(0x100000000 / max) * max;
+  const buf = new Uint32Array(1);
+  let v;
+  do { crypto.getRandomValues(buf); v = buf[0]; } while (v >= limit);
+  return v % max;
+}
+
+// Fisher-Yates 洗牌（crypto 随机）
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = cryptoRandInt(i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pick(pool, n) {
+  return shuffle(pool).slice(0, n).sort((a, b) => a - b);
+}
+
+// ── 解析并校验单行过滤输入 ──
+// 返回 { nums: number[], errors: string[] }
+// 空/纯空白输入：静默返回空（不报错）
+// 支持的分隔符：中文逗号，、中文句号。、英文逗号,、英文句点.、空格（可混用）
+const SEP = /[，。,.\s]+/;
+const VALID_CHARS = /^[\d，。,.\s]*$/;
+const SEP_HINT = '仅支持：中文逗号，、中文句号。、英文逗号,、小数点.、空格';
+
+function parseSingleLine(text, min, max, label) {
+  if (!text || !text.trim()) return { nums: [], errors: [] };
+  if (!VALID_CHARS.test(text)) {
+    const bad = [...new Set(text.split('').filter(c => !/[\d，。,.\s]/.test(c)))].join(' ');
+    return { nums: [], errors: [`${label}含不支持的字符「${bad}」，${SEP_HINT}`] };
+  }
+  const tokens = text.trim().split(SEP).filter(t => t !== '');
+  const nums = [], errors = [];
+  tokens.forEach(t => {
+    const n = parseInt(t, 10);
+    if (isNaN(n) || String(n) !== t.replace(/^0+(\d)/, '$1')) {
+      errors.push(`${label}「${t}」不是有效数字`);
+    } else if (n < min || n > max) {
+      errors.push(`${label}号码 ${n} 超出范围（${min}–${max}）`);
+    } else {
+      nums.push(n);
+    }
+  });
+  return { nums, errors };
+}
+
+// ── 解析按组过滤文本框 ──
+function parseFilterData(text) {
+  const lines = text.split('\n');
+  const errors = [];
+  const excludeFront = new Set();
+  const excludeBack  = new Set();
+
+  lines.forEach((raw, idx) => {
+    const line = raw.trim();
+    if (!line) return; // 空行跳过
+
+    if (!VALID_CHARS.test(line)) {
+      const bad = [...new Set(line.split('').filter(c => !/[\d，。,.\s]/.test(c)))].join(' ');
+      errors.push(`第 ${idx + 1} 行含不支持的字符「${bad}」，${SEP_HINT}`);
+      return;
+    }
+
+    const tokens = line.split(SEP).filter(t => t !== '');
+    const nums   = tokens.map(t => parseInt(t, 10)).filter(n => !isNaN(n) && n > 0);
+
+    if (nums.length === 0) return; // 全是符号/非数字，静默跳过
+
+    if (nums.length < 7) {
+      errors.push(`第 ${idx + 1} 行数据不足 7 个有效号码（当前 ${nums.length} 个）：「${line}」`);
+      return;
+    }
+    if (nums.length > 7) {
+      errors.push(`第 ${idx + 1} 行数字超过 7 个（当前 ${nums.length} 个）：「${line}」`);
+      return;
+    }
+
+    // 前5个视为前区，后2个视为后区（与彩票出票顺序一致）
+    const front = nums.slice(0, 5);
+    const back  = nums.slice(5, 7);
+
+    const lineErrs = [];
+
+    // 前区内部重复检测
+    const frontSeen = new Set(), frontDupes = new Set();
+    front.forEach(n => { frontSeen.has(n) ? frontDupes.add(n) : frontSeen.add(n); });
+    if (frontDupes.size) {
+      lineErrs.push(`前区号码重复：${[...frontDupes].sort((a,b)=>a-b).map(n=>String(n).padStart(2,'0')).join('、')}`);
+    }
+    // 后区内部重复检测（2个相同）
+    if (back[0] === back[1]) {
+      lineErrs.push(`后区号码重复：${String(back[0]).padStart(2,'0')}`);
+    }
+
+    front.forEach(n => {
+      if (n < 1 || n > 35) lineErrs.push(`前区号码 ${n} 超出范围（01–35）`);
+      else excludeFront.add(n);
+    });
+    back.forEach(n => {
+      if (n < 1 || n > 12) lineErrs.push(`后区号码 ${n} 超出范围（01–12）`);
+      else excludeBack.add(n);
+    });
+    if (lineErrs.length) {
+      errors.push(`第 ${idx + 1} 行：` + lineErrs.join('，'));
+    }
+  });
+
+  return { excludeFront: [...excludeFront], excludeBack: [...excludeBack], errors };
+}
+
+// ── 主逻辑 ──
+function handleGenerate() {
+  const errorBox    = document.getElementById('errorBox');
+  const infoBox     = document.getElementById('infoBox');
+  const btnHint     = document.getElementById('btnErrorHint');
+  errorBox.style.display = 'none';
+  infoBox.style.display  = 'none';
+  btnHint.style.display  = 'none';
+
+  const exFront = new Set();
+  const exBack  = new Set();
+  // 分类收集错误：{ label, lines }
+  const errorGroups = [];
+
+  // 1. 前区单行过滤
+  const rf = parseSingleLine(document.getElementById('filterFront').value, 1, 35, '前区排除');
+  if (rf.errors.length) errorGroups.push({ label: '前区排除', lines: rf.errors });
+  rf.nums.forEach(n => exFront.add(n));
+
+  // 2. 后区单行过滤
+  const rb = parseSingleLine(document.getElementById('filterBack').value, 1, 12, '后区排除');
+  if (rb.errors.length) errorGroups.push({ label: '后区排除', lines: rb.errors });
+  rb.nums.forEach(n => exBack.add(n));
+
+  // 3. 按组过滤 textarea
+  const filterText = document.getElementById('filterData').value;
+  if (filterText.trim()) {
+    const { excludeFront: ef, excludeBack: eb, errors } = parseFilterData(filterText);
+    if (errors.length) errorGroups.push({ label: '按组排除', lines: errors });
+    ef.forEach(n => exFront.add(n));
+    eb.forEach(n => exBack.add(n));
+  }
+
+  // 有任何错误则拦截，按分类展示
+  if (errorGroups.length) {
+    errorBox.innerHTML = errorGroups.map(g =>
+      `<b>【${g.label}】</b><br>` + g.lines.join('<br>')
+    ).join('<br><br>');
+    errorBox.style.display = 'block';
+    btnHint.style.display  = 'block';
+    return;
+  }
+
+  const excludeFront = [...exFront];
+  const excludeBack  = [...exBack];
+
+  if (excludeFront.length || excludeBack.length) {
+    const msgs = [];
+    if (excludeFront.length) msgs.push(`前区已排除 ${excludeFront.length} 个号码（剩余 ${35 - excludeFront.length} 个）`);
+    if (excludeBack.length)  msgs.push(`后区已排除 ${excludeBack.length} 个号码（剩余 ${12 - excludeBack.length} 个）`);
+    infoBox.innerHTML = msgs.join('　　');
+    infoBox.style.display = 'block';
+  }
+
+  // 校验号码池是否够用
+  const frontPool = Array.from({length: 35}, (_, i) => i + 1).filter(n => !excludeFront.includes(n));
+  const backPool  = Array.from({length: 12}, (_, i) => i + 1).filter(n => !excludeBack .includes(n));
+
+  if (frontPool.length < 5) {
+    errorBox.innerHTML = `前区可用号码仅剩 ${frontPool.length} 个，不足以选出 5 个，请减少排除数据。`;
+    errorBox.style.display = 'block';
+    btnHint.style.display  = 'block';
+    return;
+  }
+  if (backPool.length < 2) {
+    errorBox.innerHTML = `后区可用号码仅剩 ${backPool.length} 个，不足以选出 2 个，请减少排除数据。`;
+    errorBox.style.display = 'block';
+    btnHint.style.display  = 'block';
+    return;
+  }
+
+  // 生成 5 组，每组独立随机
+  const sets = Array.from({length: 5}, () => ({
+    front: pick(frontPool, 5),
+    back:  pick(backPool,  2),
+  }));
+
+  currentSets = sets;
+  renderResults(sets);
+}
+
+function renderResults(sets) {
+  const area = document.getElementById('resultsArea');
+  area.innerHTML = sets.map((s, i) => `
+    <div class="ticket">
+      <div class="balls">
+        ${s.front.map(n => `<div class="ball ball-front">${pad(n)}</div>`).join('')}
+        <div class="divider">+</div>
+        ${s.back.map(n => `<div class="ball ball-back">${pad(n)}</div>`).join('')}
+      </div>
+      <button class="btn-copy-one" id="cpbtn-${i}" onclick="copyOne(${i})">复制</button>
+    </div>
+  `).join('');
+  document.getElementById('copyAllRow').style.display = 'block';
+}
+
+function setToLine(s) {
+  return s.front.map(pad).join(' ') + ' + ' + s.back.map(pad).join(' ');
+}
+
+function copyOne(i) {
+  const text = setToLine(currentSets[i]);
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(`cpbtn-${i}`);
+    btn.textContent = '已复制';
+    btn.classList.add('copied');
+    showToast(`第 ${i + 1} 注已复制`);
+    setTimeout(() => {
+      btn.textContent = '复制';
+      btn.classList.remove('copied');
+    }, 1800);
+  });
+}
+
+function copyAll() {
+  const text = currentSets.map(s => setToLine(s)).join('\n');
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.btn-copy-all');
+    btn.textContent = '已全部复制 ✓';
+    showToast('5 组号码已复制到剪贴板');
+    setTimeout(() => { btn.textContent = '复制全部 5 组号码'; }, 2000);
+  });
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+function pad(n) {
+  return n < 10 ? '0' + n : '' + n;
+}
+
+// ── 金币动画 ──
+const COINS = ['🪙','💰','✨','💛','🌟'];
+const clickTimes = [];   // 记录最近点击时间戳
+
+function spawnCoins(fullscreen, event) {
+  const count = fullscreen ? 80 : 14;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('span');
+    el.className = 'coin-particle' + (fullscreen ? ' fullscreen' : '');
+    el.textContent = COINS[Math.floor(Math.random() * COINS.length)];
+
+    let startX, startY;
+    if (fullscreen) {
+      // 全屏：从屏幕顶部随机横向位置散落
+      startX = Math.random() * vw;
+      startY = -20 + Math.random() * 80;
+    } else {
+      // 局部：从按钮中心附近
+      const rect = document.getElementById('btnGenerate').getBoundingClientRect();
+      startX = rect.left + rect.width * (0.2 + Math.random() * 0.6);
+      startY = rect.top  + rect.height * (0.2 + Math.random() * 0.6);
+    }
+
+    const angle  = fullscreen
+      ? (Math.random() * 360) * Math.PI / 180
+      : (Math.random() * 260 + 140) * Math.PI / 180; // 局部：向下扩散
+    const dist   = fullscreen
+      ? 120 + Math.random() * (vh * 0.65)
+      : 40  + Math.random() * 90;
+    const dx = Math.cos(angle) * dist;
+    const dy = Math.sin(angle) * dist;
+    const rot = (Math.random() * 720 - 360) + 'deg';
+    const dur = (fullscreen ? 1.0 + Math.random() * 0.8 : 0.55 + Math.random() * 0.45).toFixed(2) + 's';
+    const delay = (Math.random() * (fullscreen ? 0.5 : 0.1)).toFixed(2) + 's';
+
+    el.style.cssText = `
+      left:${startX}px; top:${startY}px;
+      --dx:${dx.toFixed(1)}px; --dy:${dy.toFixed(1)}px;
+      --rot:${rot}; --dur:${dur};
+      animation-delay:${delay};
+    `;
+    document.body.appendChild(el);
+
+    const totalMs = (parseFloat(dur) + parseFloat(delay)) * 1000 + 50;
+    setTimeout(() => el.remove(), totalMs);
+  }
+}
+
+// 记录点击，判断是否触发全屏
+document.getElementById('btnGenerate').addEventListener('click', () => {
+  const now = Date.now();
+  clickTimes.push(now);
+  // 只保留最近 10 次
+  if (clickTimes.length > 10) clickTimes.shift();
+
+  let fullscreen = false;
+  if (clickTimes.length === 10) {
+    // 检查前后每次间隔都 < 1000ms
+    let rapid = true;
+    for (let i = 1; i < clickTimes.length; i++) {
+      if (clickTimes[i] - clickTimes[i - 1] >= 1000) { rapid = false; break; }
+    }
+    if (rapid) {
+      fullscreen = true;
+      clickTimes.length = 0; // 触发后重置，避免连续全屏刷屏
+    }
+  }
+
+  spawnCoins(fullscreen);
+}, true); // capture=true，在 handleGenerate 之前响应
+
+// 进入页面自动生成一次
+window.addEventListener('DOMContentLoaded', handleGenerate);
+</script>
+</body>
+</html>
