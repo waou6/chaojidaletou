@@ -409,14 +409,14 @@ function pick(pool, n) {
 // 返回 { nums: number[], errors: string[] }
 // 空/纯空白输入：静默返回空（不报错）
 // 支持的分隔符：中文逗号，、中文句号。、英文逗号,、英文句点.、空格（可混用）
-const SEP = /[，。,.\s]+/;
-const VALID_CHARS = /^[\d，。,.\s]*$/;
+const SEP = /[，。+,.\s]+/;
+const VALID_CHARS = /^[\d，。+,.\s]*$/;
 const SEP_HINT = '仅支持：中文逗号，、中文句号。、英文逗号,、小数点.、空格';
 
 function parseSingleLine(text, min, max, label) {
   if (!text || !text.trim()) return { nums: [], errors: [] };
   if (!VALID_CHARS.test(text)) {
-    const bad = [...new Set(text.split('').filter(c => !/[\d，。,.\s]/.test(c)))].join(' ');
+    const bad = [...new Set(text.split('').filter(c => !/[\d，。+,.\s]/.test(c)))].join(' ');
     return { nums: [], errors: [`${label}含不支持的字符「${bad}」，${SEP_HINT}`] };
   }
   const tokens = text.trim().split(SEP).filter(t => t !== '');
@@ -446,7 +446,7 @@ function parseFilterData(text) {
     if (!line) return; // 空行跳过
 
     if (!VALID_CHARS.test(line)) {
-      const bad = [...new Set(line.split('').filter(c => !/[\d，。,.\s]/.test(c)))].join(' ');
+      const bad = [...new Set(line.split('').filter(c => !/[\d，。+,.\s]/.test(c)))].join(' ');
       errors.push(`第 ${idx + 1} 行含不支持的字符「${bad}」，${SEP_HINT}`);
       return;
     }
